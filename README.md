@@ -8,7 +8,7 @@ ___
 ## What will you be able to do?
 _Our services will provide you with the following:_
 
-- The ability to choose your car flexibly
+- The ability to choose your car flexibly.
 - Save your car configuration to review later or purchase.
 - Helps you book your car.
 - You can cancel your booking anytime.<sup>*</sup>
