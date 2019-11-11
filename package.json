@@ -1,0 +1,49 @@
+{
+	"name": "bookworm",
+	"version": "0.0.1",
+	"description": "A newer experience in the car booking field.",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"restart": "nodemon index.js",
+		"lint": "./node_modules/.bin/eslint --ignore-path .gitignore .",
+		"format": "./node_modules/.bin/prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Omar-Handouk/BookWorm.git"
+	},
+	"keywords": [
+		"NodeJS",
+		"HandlebarsJS",
+		"Google",
+		"Cloud",
+		"Firebase",
+		"OAuth",
+		"2.0",
+		"Express",
+		"PassportJS"
+	],
+	"author": "Esraa Mohy El-Din, Omar Ihab, Omar Morsi",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Omar-Handouk/BookWorm/issues"
+	},
+	"homepage": "https://github.com/Omar-Handouk/BookWorm#readme",
+	"devDependencies": {
+		"@types/express": "^4.17.2",
+		"@types/lodash": "^4.14.146",
+		"@types/node": "^12.12.7",
+		"dotenv": "^8.2.0",
+		"eslint": "^6.6.0",
+		"eslint-config-prettier": "^6.5.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"nodemon": "^1.19.4",
+		"prettier": "^1.19.1"
+	},
+	"dependencies": {
+		"express": "^4.17.1",
+		"helmet": "^3.21.2",
+		"lodash": "^4.17.15"
+	}
+}
