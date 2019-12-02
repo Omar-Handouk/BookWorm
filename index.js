@@ -1,10 +1,18 @@
 'use strict';
-
 // Load configuration
-const config = require('./config');
+const { port: PORT, database_url: DB_URL } = require('./config/config');
 
 const express = require('express');
 const helmet = require('helmet');
+
+const firebase = require('firebase-admin');
+const serviceAccount = require('./config/bookworm-iv-firebase-adminsdk-i7tks-c04fef1e5e');
+
+// Configure Firebase
+firebase.initializeApp({
+	credential: firebase.credential.cert(serviceAccount),
+	databaseURL: DB_URL
+});
 
 // Initialize application
 const app = express();
@@ -12,13 +20,11 @@ const app = express();
 // Middleware initialization
 app.use(helmet());
 
-app.get('/', (req, res) => {
-	let page = "<head><title>Landing Page</title></head>" +
-		"<body><h1>Express server is setup correctly!</h1></body>";
+// Initialize Services
+require('./services/index')(app, firebase);
+// Initialize Routes
+require('./routes/index')(app);
 
-	res.send(page);
-});
-
-app.listen(config.port, () => {
-	console.info(`Application is running at port ${config.port}`);
+app.listen(PORT, () => {
+	console.info(`Application is running at port ${PORT}`);
 });

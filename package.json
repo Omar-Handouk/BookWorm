@@ -43,6 +43,7 @@
 	},
 	"dependencies": {
 		"express": "^4.17.1",
+		"firebase-admin": "^8.8.0",
 		"helmet": "^3.21.2",
 		"lodash": "^4.17.15"
 	}
