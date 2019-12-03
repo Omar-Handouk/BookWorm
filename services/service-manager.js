@@ -1,7 +1,12 @@
 'use strict';
 
 const services = {};
-
+/**
+ * @description Sets the name of a given service object instance
+ *
+ * @param serviceName
+ * @param object
+ */
 let set = (serviceName, object) => {
 	let servicesNames = getServicesNames();
 
@@ -11,6 +16,7 @@ let set = (serviceName, object) => {
 		services[serviceName] = object;
 	}
 };
+
 
 let get = (serviceName) => {
 	let serviceExists = Object.keys(services).includes(serviceName);
