@@ -1,6 +1,5 @@
 'use strict';
 
 module.exports = (app) => {
-  require('./carRouter')(app);
+	require('./carRouter')(app);
 };
-

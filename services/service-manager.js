@@ -17,7 +17,6 @@ let set = (serviceName, object) => {
 	}
 };
 
-
 let get = (serviceName) => {
 	let serviceExists = Object.keys(services).includes(serviceName);
 
