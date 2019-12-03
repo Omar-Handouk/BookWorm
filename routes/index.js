@@ -1,3 +1,6 @@
 'use strict';
 
-module.exports = (app) => {};
+module.exports = (app) => {
+  require('./carRouter')(app);
+};
+

@@ -1,0 +1,14 @@
+{
+  "ModelName": {
+    "DataType": "String"
+  },
+  "YearOfMake": {
+    "DataType": "Number"
+  },
+  "Color": {
+    "DataType": "Enum"
+  },
+  "Stock": {
+    "DataType": "Number"
+  }
+}
