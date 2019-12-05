@@ -36,9 +36,6 @@ module.exports = (app) => {
 	});
 
 	router.put('/:id', (req, res) => {
-		// TODO: Add Modify car by ID service
-		// TODO: Add verification of supplied ID
-		// TODO: Add JOI Validation
 		if (req.params.id === undefined) {
 			res.json({ Error: 'Car ID is not supplied' });
 		} else {
@@ -57,8 +54,6 @@ module.exports = (app) => {
 	});
 
 	router.delete('/:id', (req, res) => {
-		// TODO: ADD delete car by ID service
-		// TODO: Add verification of supplied ID
 		if (req.params.id === undefined) {
 			res.json({ Error: 'Car ID is not supplied' });
 		} else {

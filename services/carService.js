@@ -1,101 +1,126 @@
-'use strict';
+"use strict";
 
 class CarService {
-	constructor(app, firebase) {
-		this.app = app;
-		this.firebase = firebase;
-		this.db = this.firebase.firestore();
-	}
+  constructor(app, firebase) {
+    this.app = app;
+    this.firebase = firebase;
+    this.db = this.firebase.firestore();
+  }
 
-	createCar(carInfo, callback) {
-		let dbInsertion = this.db.collection('Cars');
+  createCar(carInfo, callback) {
 
-		dbInsertion
-			.add(carInfo)
-			.then((ref) => {
-				if (ref !== undefined && ref.id !== undefined) {
-					callback({ Info: 'Car successfully added', ID: ref.id });
-				} else {
-					callback({ Error: 'There was a problem adding the car' });
-				}
-			})
-			.catch();
-	}
+    // Check If manufacturer exists first
+    let manufacturer = carInfo.Manufacturer.toLowerCase();
 
-	getCarById(Id, callback) {
-		let dbQuery = this.db.collection('Cars').doc(Id);
+    this.db
+      .collection("Manufacturers")
+      .get()
+      .then(snapshot => {
+        let manufacturers = [];
 
-		dbQuery
-			.get()
-			.then((doc) => {
-				if (doc.exists) {
-					callback(doc.data());
-				} else {
-					callback({ Error: 'Document ID does not exist' });
-				}
-			})
-			.catch((err) => console.error(err));
-	}
+        snapshot.forEach(doc => manufacturers.push(doc.id.toLowerCase()));
 
-	getCarByQuery(query, callback) {
-		let dbQuery = this.db.collection('Cars');
+        if (!manufacturers.includes(manufacturer)) {
+          this.db
+            .collection("Manufacturers")
+            .doc(manufacturer)
+            .set({})
+            .then(ref => {
+              console.log("New Car manufacturer added");
+            })
+            .catch(err => console.log(err));
+        }
+      })
+      .catch(err => console.log(err));
 
-		let keys = Object.keys(query);
+    let dbInsertion = this.db.collection("Cars");
 
-		keys.forEach((key) => {
-			dbQuery = dbQuery.where(key, '==', query[key]);
-		});
+    dbInsertion
+      .add(carInfo)
+      .then((ref) => {
+        if (ref !== undefined && ref.id !== undefined) {
+          callback({ Info: "Car successfully added", ID: ref.id });
+        } else {
+          callback({ Error: "There was a problem adding the car" });
+        }
+      })
+      .catch();
+  }
 
-		dbQuery = dbQuery
-			.get()
-			.then((snapshot) => {
-				let cars = [];
+  getCarById(Id, callback) {
+    let dbQuery = this.db.collection("Cars").doc(Id);
 
-				snapshot.forEach((doc) => cars.push(doc.data()));
+    dbQuery
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          callback(doc.data());
+        } else {
+          callback({ Error: "Document ID does not exist" });
+        }
+      })
+      .catch((err) => console.error(err));
+  }
 
-				callback(cars);
-			})
-			.catch((err) => console.error(err));
-	}
+  getCarByQuery(query, callback) {
+    let dbQuery = this.db.collection("Cars");
 
-	updateCar(carInfo, Id, callback) {
-		let dbUpdate = this.db.collection('Cars').doc(Id);
+    let keys = Object.keys(query);
 
-		dbUpdate
-			.get()
-			.then((doc) => {
-				if (doc.exists) {
-					dbUpdate
-						.update(carInfo)
-						.then((response) => callback({ Info: 'Car updated successfully' })) // eslint-disable-line no-unused-vars
-						.catch((err) => console.error(err));
-				} else {
-					callback({ Error: 'Car does not exist' });
-				}
-			})
-			.catch((err) => console.error(err));
-	}
+    keys.forEach((key) => {
+      dbQuery = dbQuery.where(key, "==", query[key]);
+    });
 
-	deleteCar(Id, callback) {
-		let dbDelete = this.db.collection('Cars').doc(Id);
+    dbQuery = dbQuery
+      .get()
+      .then((snapshot) => {
+        let cars = [];
 
-		dbDelete
-			.get()
-			.then((doc) => {
-				if (doc.exists) {
-					dbDelete
-						.delete()
-						.then((response) => callback({ Info: 'Car deleted successfully' })) // eslint-disable-line no-unused-vars
-						.catch((err) => console.error(err));
-				} else {
-					callback({ Error: 'Car does not exist' });
-				}
-			})
-			.catch((err) => console.error(err));
-	}
+        snapshot.forEach((doc) => cars.push(doc.data()));
+
+        callback(cars);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  updateCar(carInfo, Id, callback) {
+    let dbUpdate = this.db.collection("Cars").doc(Id);
+
+    dbUpdate
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          dbUpdate
+            .update(carInfo)
+            .then((response) => callback({ Info: "Car updated successfully" })) // eslint-disable-line no-unused-vars
+            .catch((err) => console.error(err));
+        } else {
+          callback({ Error: "Car does not exist" });
+        }
+      })
+      .catch((err) => console.error(err));
+  }
+
+  deleteCar(Id, callback) {
+    let dbDelete = this.db.collection("Cars").doc(Id);
+
+    dbDelete
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          dbDelete
+            .delete()
+            .then((response) => callback({ Info: "Car deleted successfully" })) // eslint-disable-line no-unused-vars
+            .catch((err) => console.error(err));
+        } else {
+          callback({ Error: "Car does not exist" });
+        }
+      })
+      .catch((err) => console.error(err));
+  }
 }
 
 module.exports = (app, firebase, serviceManager) => {
-	let carService = new CarService(app, firebase);
-	serviceManager.set('carService', carService);
+  let carService = new CarService(app, firebase);
+  serviceManager.set("carService", carService);
 };
