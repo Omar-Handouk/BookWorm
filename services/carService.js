@@ -23,7 +23,7 @@ class CarService {
         if (!manufacturers.includes(manufacturer)) {
           this.db
             .collection("Manufacturers")
-            .doc(manufacturer)
+            .doc(carInfo.Manufacturer)
             .set({})
             .then(ref => {
               console.log("New Car manufacturer added");
