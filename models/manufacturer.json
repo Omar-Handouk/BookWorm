@@ -1,0 +1,6 @@
+{
+	"Name": {
+		"DataType": "String"
+	},
+	"Desc": "Manufacturer model is a collection used for enumeration"
+}

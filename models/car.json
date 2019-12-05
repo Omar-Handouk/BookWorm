@@ -1,5 +1,8 @@
 {
-	"ModelName": {
+	"Manufacturer": {
+		"DataType": "String"
+	},
+	"Model": {
 		"DataType": "String"
 	},
 	"YearOfMake": {
@@ -10,5 +13,6 @@
 	},
 	"Stock": {
 		"DataType": "Number"
-	}
+	},
+	"Desc": "Cars schema"
 }

@@ -1,7 +1,5 @@
 'use strict';
 
-const CarModel = require('../models/car');
-
 class CarService {
 	constructor(app, firebase) {
 		this.app = app;
@@ -10,27 +8,88 @@ class CarService {
 	}
 
 	createCar(carInfo, callback) {
-		/*let modelKeys = Object.keys(CarModel);
-    let infoKey = Object.keys(carInfo);
+		let dbInsertion = this.db.collection('Cars');
 
-    let insertion = {};
-    */
+		dbInsertion
+			.add(carInfo)
+			.then((ref) => {
+				if (ref !== undefined && ref.id !== undefined) {
+					callback({ Info: 'Car successfully added', ID: ref.id });
+				} else {
+					callback({ Error: 'There was a problem adding the car' });
+				}
+			})
+			.catch();
 	}
 
-	getCarById(Id, callback) {}
+	getCarById(Id, callback) {
+		let dbQuery = this.db.collection('Cars').doc(Id);
 
-	getCarByQuery(query, callback) {}
+		dbQuery
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					callback(doc.data());
+				} else {
+					callback({ Error: 'Document ID does not exist' });
+				}
+			})
+			.catch((err) => console.error(err));
+	}
 
-	getAllCars(callback) {
-		this.db
-			.collection('Toyota')
+	getCarByQuery(query, callback) {
+		let dbQuery = this.db.collection('Cars');
+
+		let keys = Object.keys(query);
+
+		keys.forEach((key) => {
+			dbQuery = dbQuery.where(key, '==', query[key]);
+		});
+
+		dbQuery = dbQuery
 			.get()
 			.then((snapshot) => {
-				let documents = [];
+				let cars = [];
 
-				snapshot.forEach((doc) => documents.push(doc.data()));
+				snapshot.forEach((doc) => cars.push(doc.data()));
 
-				callback(documents);
+				callback(cars);
+			})
+			.catch((err) => console.error(err));
+	}
+
+	updateCar(carInfo, Id, callback) {
+		let dbUpdate = this.db.collection('Cars').doc(Id);
+
+		dbUpdate
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					dbUpdate
+						.update(carInfo)
+						.then((response) => callback({ Info: 'Car updated successfully' })) // eslint-disable-line no-unused-vars
+						.catch((err) => console.error(err));
+				} else {
+					callback({ Error: 'Car does not exist' });
+				}
+			})
+			.catch((err) => console.error(err));
+	}
+
+	deleteCar(Id, callback) {
+		let dbDelete = this.db.collection('Cars').doc(Id);
+
+		dbDelete
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					dbDelete
+						.delete()
+						.then((response) => callback({ Info: 'Car deleted successfully' })) // eslint-disable-line no-unused-vars
+						.catch((err) => console.error(err));
+				} else {
+					callback({ Error: 'Car does not exist' });
+				}
 			})
 			.catch((err) => console.error(err));
 	}

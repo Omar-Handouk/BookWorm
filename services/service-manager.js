@@ -17,6 +17,11 @@ let set = (serviceName, object) => {
 	}
 };
 
+/**
+ * Given a service name, a service is provided if it is available
+ * @param serviceName
+ * @returns {*}
+ */
 let get = (serviceName) => {
 	let serviceExists = Object.keys(services).includes(serviceName);
 
@@ -27,6 +32,10 @@ let get = (serviceName) => {
 	}
 };
 
+/**
+ * Return a list of all available services
+ * @returns {string[]}
+ */
 let getServicesNames = () => {
 	return Object.keys(services);
 };
