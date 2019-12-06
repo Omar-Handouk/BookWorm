@@ -42,6 +42,7 @@
 		"prettier": "^1.19.1"
 	},
 	"dependencies": {
+		"array": "^0.4.3",
 		"express": "^4.17.1",
 		"firebase-admin": "^8.8.0",
 		"helmet": "^3.21.2",
