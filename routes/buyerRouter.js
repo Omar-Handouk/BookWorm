@@ -28,12 +28,24 @@ module.exports = (app) => {
 			res.json({ Error: 'Car ID is not supplied' });
 		}else {
             let userInfo = req.body.userId;
-				buyerService.bookCar(req.params.id, userInfo, (response) => {
+				buyerService.bookCar(req.params.id, userInfo,  (response) => {
 					res.json(response);
 				});
 			
         }
     });
+
+    router.delete('/deleteBooking/:id', (req, res) => {
+		if (req.params.id === undefined) {
+			res.json({ Error: 'Car ID is not supplied' });
+		} else {
+            let userInfo = req.body.userId;
+            let token = req.body.token;
+			buyerService.deleteBooking(req.params.id, userInfo, token, (response) => {
+				res.json(response);
+			});
+		}
+	});
 
     app.use('/user', router);
 };

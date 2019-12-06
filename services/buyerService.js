@@ -1,6 +1,8 @@
 'use strict';
 
 let admin = require('firebase-admin');
+const uuidv1 = require('uuid/v1');
+
 
 class BuyerService {
     constructor(app, firebase) {
@@ -64,8 +66,8 @@ class BuyerService {
              .get()
              .then((document) => {
                  if(document.exists){
-                  let currentData = doc.data();
-                  currentData.token = Id;
+                   let currentData = doc.data();
+                   currentData.token = uuidv1();
                     console.log(currentData);
                       dbUser.update({
                       "Booked Cars" : admin.firestore.FieldValue.arrayUnion(currentData)
@@ -86,6 +88,34 @@ class BuyerService {
           }
           })
           .catch((err) => console.error(err));
+    }
+
+    deleteBooking(Id, userId, token, callback){
+      let dbQuery = this.db.collection("Cars").doc(Id);
+    dbQuery
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          let id = userId.toString(2);
+          let dbUser = this.db.collection("Users").doc(id); 
+          dbUser
+         .get()
+         .then((document) => {
+           let currentData = doc.data();
+           console.log(currentData)
+           currentData.token = token;
+          dbUser.update({
+            "Booked Cars" : admin.firestore.FieldValue.arrayRemove(currentData)
+          }).then((document) => {
+            callback({Info: "Document successfully deleted!"});
+          })
+         })
+         .catch((err) => console.error(err));
+        }else {
+          callback({ Error: "Document Car ID does not exist" });
+        }
+        })
+        .catch((err) => console.error(err));
     }
 }  
 module.exports = (app, firebase, serviceManager) => {
