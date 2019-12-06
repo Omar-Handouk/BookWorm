@@ -122,3 +122,4 @@ module.exports = (app, firebase, serviceManager) => {
     let buyerService = new BuyerService(app, firebase);
     serviceManager.set("buyerService", buyerService);
   };
+
