@@ -193,5 +193,6 @@ modules.xml
 .idea/sonarlint
 
 # Firebase Credentails
+config/bookworm-iv-firebase-adminsdk-i7tks-c04fef1e5e.json
 
 # End of https://www.gitignore.io/api/node,webstorm+all,visualstudiocode
