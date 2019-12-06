@@ -1,5 +1,6 @@
 'use strict';
 
+
 let admin = require('firebase-admin');
 
 class BuyerService {
@@ -54,3 +55,4 @@ module.exports = (app, firebase, serviceManager) => {
     let buyerService = new BuyerService(app, firebase);
     serviceManager.set("buyerService", buyerService);
   };
+
