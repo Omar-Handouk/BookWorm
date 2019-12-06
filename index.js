@@ -19,6 +19,12 @@ const app = express();
 
 // Middleware initialization
 app.use(helmet());
+app.use(express.json());
+app.use(
+	express.urlencoded({
+		extended: false
+	})
+);
 
 // Initialize Services
 require('./services/index')(app, firebase);

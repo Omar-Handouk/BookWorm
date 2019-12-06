@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const config = {
 	environment: process.env.NODE_ENV,
-	port: process.env.PORT,
+	port: 9090,
 	database_url: 'https://bookworm-iv.firebaseio.com/'
 };
 
