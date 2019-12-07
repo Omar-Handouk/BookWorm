@@ -44,9 +44,11 @@
 	},
 	"dependencies": {
 		"@hapi/joi": "^16.1.8",
+		"array": "^0.4.3",
 		"express": "^4.17.1",
 		"firebase-admin": "^8.8.0",
 		"helmet": "^3.21.2",
+		"joi": "^14.3.1",
 		"lodash": "^4.17.15"
 	}
 }
