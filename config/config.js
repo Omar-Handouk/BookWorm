@@ -1,11 +1,13 @@
 'use strict';
 
-require('dotenv').config();
+try {
+	require("dotenv").config();
 
-const config = {
-	environment: process.env.NODE_ENV,
-	port: 9090,
-	database_url: 'https://bookworm-iv.firebaseio.com/'
-};
-
-module.exports = config;
+	module.exports = {
+		environment: process.env.NODE_ENV,
+		port: process.env.PORT,
+		database_url: process.env.DB_URL
+	};
+} catch (e) {
+	console.error(e);
+}
