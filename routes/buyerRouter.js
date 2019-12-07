@@ -6,7 +6,7 @@ const router = express.Router();
 
 module.exports = (app) => {
 
-    router.put('/:id', (req, res) => {
+    router.put('/save/:id', (req, res) => {
 
         if (req.params.id === undefined) {
 			res.json({ Error: 'Car ID is not supplied' });
@@ -16,6 +16,19 @@ module.exports = (app) => {
             //save is used as a check to see if i am saving or unsaving the car
             let save = req.body.save;
 				buyerService.saveCar(req.params.id, userInfo, save, (response) => {
+					res.json(response);
+				});
+			
+        }
+    });
+
+    router.put('/book/:id', (req, res) => {
+
+        if (req.params.id === undefined) {
+			res.json({ Error: 'Car ID is not supplied' });
+		}else {
+            let userInfo = req.body.userId;
+				buyerService.bookCar(req.params.id, userInfo, (response) => {
 					res.json(response);
 				});
 			
