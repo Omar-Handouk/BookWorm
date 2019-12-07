@@ -26,4 +26,4 @@ _Our services will provide you with the following:_
 ## What will you not be able to do?
 
 - You cannot pay online; you must pay on premises.
-- You cannot cancel you booked car after providing a down payment.
+- You cannot cancel your booked car after providing a down payment.
