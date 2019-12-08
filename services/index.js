@@ -6,5 +6,6 @@ module.exports = (app, firebase) => {
 	require('./carService')(app, firebase, serviceManager);
 
 	require('./buyerService')(app, firebase, serviceManager);
-  
+
+	require('./authService')(app, firebase, serviceManager);
 };
