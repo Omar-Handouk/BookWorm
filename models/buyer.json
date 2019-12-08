@@ -1,10 +1,8 @@
 {
-
-    "Favourite Cars" : {
-        "DataType" : "Array"
-    },
-    "Booked Cars" : {
-        "DataType" : "Array"
-    }
-    
+	"Favourite Cars": {
+		"DataType": "Array"
+	},
+	"Booked Cars": {
+		"DataType": "Array"
+	}
 }

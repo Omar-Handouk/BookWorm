@@ -1,6 +1,6 @@
 # BookWorm Docker Compose File
 # Maintainer: Omar Handouk
-version: "3.7"
+version: '3.7'
 services:
   web:
     build:

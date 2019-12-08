@@ -1,0 +1,10 @@
+<div class="row">
+    {{#if userType}}
+        <h3>User Dashboard</h3>
+    {{else}}
+        <h3>Admin Dashboard</h3>
+    {{/if}}
+</div>
+<div class="row">
+    <h1>Welcome back, {{{user.firstName}}} {{{user.lastName}}}</h1>
+</div>
