@@ -1,6 +1,7 @@
 'use strict';
 
 const buyerService = require('../services/service-manager').get('buyerService');
+const authService = require('../services/service-manager').get('authService');
 const express = require('express');
 const router = express.Router();
 
