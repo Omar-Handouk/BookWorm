@@ -1,79 +1,26 @@
 <div class="container">
-    <div class="row">
-        {{#if userType}}
-            <h3>User Dashboard</h3>
-            <div class="position-absolute mid-left ">
-                <div class="btn-group-vertical" role="group" aria-label="Basic example">
-                    <a href="/profile/getBookedCars">
-                        <button type="button" class="btn btn-secondary" >My Booked Cars</button>
-                    </a>
-                    <a href="/profile/getFavouriteCars">
-                        <button type="button" class="btn btn-secondary"  >My Favourite Cars</button>
-                    </a>
+
+    <h1 class="mt-4 mb-3">User Dashboard
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active">User Dashboard</li>
+    </ol>
+
+    <div class="row" >
+
+        <div class="card" style="margin-bottom: 20px; width: 100%; text-align: center">
+            <div class="card-body">
+                <div class="btn-group-horizontal" role="group" aria-label="Basic example">
+                    <a href="/profile/getBookedCars" class="btn btn-primary">My Booked Cars</a>
+                    <a href="/profile/getFavouriteCars" class="btn btn-primary">My Favourite Cars</a>
                 </div>
             </div>
-        {{else}}
-            <h3>Admin Dashboard</h3>
-        {{/if}}
+        </div>
     </div>
-    <div class="row">
-        <h1>Welcome back, {{{user.firstName}}} {{{user.lastName}}} </h1>
-    </div>
+</div>
 
-    <style type="text/css">
-        html,
-        body {
-            height: 300px;
-        }
-
-        .top-left {
-            top: 0;
-            left: 0;
-        }
-
-        .top-center {
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .top-right {
-            top: 0;
-            right: 0;
-        }
-
-        .mid-left {
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-        }
-
-        .mid-center {
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-        }
-
-        .mid-right {
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-        }
-
-        .bottom-left {
-            bottom: 0;
-            left: 0;
-        }
-
-        .bottom-center {
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .bottom-right {
-            bottom: 0;
-            right: 0;
-        }
-    </style>
 </div>
