@@ -7,6 +7,10 @@ class AdminService {
 		this.db = this.firebase.firestore();
 	}
 
+	/**
+	 * Used to get requests that are still pending payment
+	 * @param callback
+	 */
 	getPendingRequests(callback) {
 		let collectionRef = this.db.collection('BookingRequests');
 
@@ -18,7 +22,7 @@ class AdminService {
 
 				if (!snapshot.empty) {
 					snapshot.forEach((doc) => {
-						requests.push(doc.data());
+						requests.push({ id: doc.id, data: doc.data() });
 					});
 				}
 
@@ -27,11 +31,16 @@ class AdminService {
 			.catch((err) => console.error(err));
 	}
 
-	updateRequestStatus(requestId, callback) {
+	/**
+	 * Update the status of a booking request to down payment provided
+	 * @param requestId
+	 * @param callback
+	 */
+	updateRequestStatus(requestId, requestStatus, callback) {
 		let collectionRef = this.db.collection('BookingRequests');
 
 		let updateDoc = {
-			status: 'down payment provided'
+			status: requestStatus
 		};
 
 		collectionRef.doc(requestId).update(updateDoc);
@@ -74,18 +83,13 @@ class AdminService {
 			.catch((err) => console.error(err));
 	}
 
+	/**
+	 * Used to delete a booking request
+	 * @param requestId
+	 * @param callback
+	 */
 	deleteRequest(requestId, callback) {
 		let collectionRef = this.db.collection('BookingRequests');
-
-		// TODO: Delete order from user
-
-		collectionRef
-			.doc(requestId)
-			.delete()
-			.then(() =>
-				callback({ Info: `Order ${requestId} has been deleted successfully` })
-			)
-			.catch((err) => console.error(err));
 
 		collectionRef
 			.doc(requestId)
@@ -99,6 +103,7 @@ class AdminService {
 					.doc(userId)
 					.get()
 					.then((doc) => {
+						// Remove booking from user
 						let booked = doc.data().bookedCars;
 
 						let bookingRequests = [];
@@ -112,10 +117,17 @@ class AdminService {
 						this.db
 							.collection('Users')
 							.doc(userId)
-							.update({ bookedCars: bookingRequests })
-							.then(() =>
-								callback({ Info: `Order ${requestId} status has been deleted` })
-							)
+							.update({ bookedCars: bookingRequests });
+
+						// Remove booking from booking collection
+						collectionRef
+							.doc(requestId)
+							.delete()
+							.then(() => {
+								callback({
+									Info: `Order ${requestId} has been deleted successfully`
+								});
+							})
 							.catch((err) => console.error(err));
 					})
 					.catch((err) => console.error(err));
