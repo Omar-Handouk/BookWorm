@@ -12,6 +12,8 @@ module.exports = (app) => {
 
 		let carInfo = req.body;
 
+		carInfo['Color'] = carInfo.Color.replace('#', '');
+
 		let { error, value } = validation.create(carInfo); // eslint-disable-line no-unused-vars
 
 		if (error) {
