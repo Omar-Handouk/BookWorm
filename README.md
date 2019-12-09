@@ -27,3 +27,26 @@ _Our services will provide you with the following:_
 
 - You cannot pay online; you must pay on premises.
 - You cannot cancel your booked car after providing a down payment.
+
+
+## INSTRUCTIONS:
+## To run the application: 
+npm install 
+npm run
+
+## Dependency isolation tool:
+npm for NodeJs
+
+## Environmental variables:
+NODE_ENV=dev
+PORT=8080
+DB_URL=https://bookworm-iv.firebaseio.com/
+COOKIE_SECRET=2C9B7727CED8D72637D6589347ED8
+(They are placed in a .env file on the repo)
+
+## Docker commands:
+docker container run
+docker-compose up OR docker container run --publish 8080:8080 --detach --name bookworm bookworm-app:latest (after building the image)
+docker image build -t bookworm-app 
+
+
