@@ -43,7 +43,7 @@ class BuyerService {
 										})
 										// eslint-disable-next-line no-unused-vars
 										.then((document) => {
-											callback({ Info: 'Document SAVE successfully updated!' });
+											callback({ Info: 'Car Saved! Dont forget to check it out later!' });
 										});
 								} else {
 									//unsaving the car
@@ -55,16 +55,16 @@ class BuyerService {
 										})
 										// eslint-disable-next-line no-unused-vars
 										.then((document) => {
-											callback({ Info: 'Document UNSAVE successfully updated!' });
+											callback({ Info: 'The car will miss you :( Check out the rest for something to catch your eye!' });
 										});
 								}
 							} else {
-								callback({ Error: 'Document User ID does not exist' });
+								callback({ Info: 'Document User ID does not exist' });
 							}
 						})
 						.catch((err) => console.error(err));
 				} else {
-					callback({ Error: 'Document Car ID does not exist' });
+					callback({ Info: 'Document Car ID does not exist' });
 				}
 			})
 			.catch((err) => console.error(err));
@@ -76,12 +76,11 @@ class BuyerService {
 			.get()
 			.then((doc) => {
 				if (doc.exists) {
-					if (doc.get('Stock') != 0) {
-						dbQuery
-							.update({
-								Stock: doc.get('Stock') - 1
-							})
-							.then((reponse) => {});
+
+					if(doc.get('Stock') != 0){
+						dbQuery.update({
+							"Stock" : doc.get('Stock') - 1
+						}).then(response => { })
 
 						let dbUser = this.db.collection('Users').doc(userId);
 
@@ -111,23 +110,24 @@ class BuyerService {
 										.then((ref) => {})
 										.catch();
 
-									dbUser
-										.update({
-											bookedCars: admin.firestore.FieldValue.arrayUnion(currentData)
-										})
-										.then((document) => {
-											callback({ Info: 'Document successfully updated!' });
-										});
-								} else {
-									callback({ Error: 'Document User ID does not exist' });
+									dbUser.update({
+										"bookedCars" : admin.firestore.FieldValue.arrayUnion(currentData)
+									}).then((document) => {
+										callback({Info: "Congratulations! You have successfully booked your car! Please visit the nearest premises to you and present them with your following token number: " + currentData.token + " " + "along with a down payment! Thank you!"});
+										return;
+									});
+
+								}else {
+									callback({ Info: "Document User ID does not exist" });
 								}
 							})
 							.catch((err) => console.error(err));
-					} else {
-						callback({ Error: 'This car has just went out of stock!' });
+					}else{
+						callback({ Info: "We are so sorry! This car just went out of stock :( Keep it in favourites and check on it later!" });
+						return;
 					}
 				} else {
-					callback({ Error: 'Document Car ID does not exist' });
+
 				}
 			})
 			.catch((err) => console.error(err));
@@ -149,27 +149,23 @@ class BuyerService {
 							for (let i = 0; i < userBookedCars.length; i++) {
 								currentCar = userBookedCars[i];
 								if (currentCar.token == token) {
-									if (currentCar.status != status.pendingPayment) {
-										callback({
-											Error: 'Cannot cancel booking! Payment has been provided'
-										});
-									} else break;
+									if(currentCar.status != status.pendingPayment){
+										callback({ Info: 'Cannot cancel booking, Payment has been provided! Please contact an admin for support' });
+										return;
+									}else
+										break
 								}
 							}
-
-							dbQuery
-								.update({
-									Stock: doc.get('Stock') + 1
-								})
-								.then((reponse) => {});
-
+							dbQuery.update({
+								"Stock" : doc.get('Stock') + 1
+							}).then(reponse => { })
 							dbUser
 								.update({
 									bookedCars: admin.firestore.FieldValue.arrayRemove(currentCar)
 								})
 								// eslint-disable-next-line no-unused-vars
 								.then((document) => {
-									callback({ Info: 'Document successfully deleted!' });
+									callback({ Info: 'We are sorry to see this happening :( Your booking has been cancelled' });
 								});
 
 							let dbRequest = this.db
@@ -184,9 +180,7 @@ class BuyerService {
 
 										dbDelete
 											.delete()
-											.then((response) =>
-												callback({ Info: 'Request deleted successfully' })
-											) // eslint-disable-line no-unused-vars
+											.then((response) => {}) // eslint-disable-line no-unused-vars
 											.catch((err) => console.error(err));
 									});
 								})
@@ -194,12 +188,43 @@ class BuyerService {
 						})
 						.catch((err) => console.error(err));
 				} else {
-					callback({ Error: 'Document Car ID does not exist' });
+					callback({ Info: 'Document Car ID does not exist' });
 				}
 			})
 			.catch((err) => console.error(err));
 	}
+
+	getBookings(userEmail, callback){
+
+		let dbRequest = this.db.collection('Users').where('email', '==', userEmail);
+		dbRequest
+				.get()
+				.then((snapshot) => {
+					snapshot.forEach((doc) => {
+						let bookedCars = doc.data().bookedCars;
+						callback({bookedCars});
+						
+				})
+	})
+	}
+
+	getFavourites(userEmail, callback){
+		
+		let dbRequest = this.db.collection('Users').where('email', '==', userEmail);
+		dbRequest
+				.get()
+				.then((snapshot) => {
+					snapshot.forEach((doc) => {
+						let favouriteCars = doc.data().favouriteCars;
+						callback({favouriteCars});
+						
+				})
+	})
+	}
+
 }
+
+
 module.exports = (app, firebase, serviceManager) => {
 	let buyerService = new BuyerService(app, firebase);
 	serviceManager.set('buyerService', buyerService);

@@ -1,0 +1,16 @@
+{{#each response}}
+<div class="card" style="width: 18rem;">
+  <img src="/imgs/car.jpg" class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{Manufacturer}} {{Model}}</h5>
+    <p class="card-text">Color: {{Color}}</p>
+    <p class="card-text">Year Of Make: {{YearOfMake}}</p>
+    <p class="card-text">Status: {{status}}</p>
+    <p class="card-text">Token: {{token}}</p>
+      <form method="post" action="/profile/deleteBooking?_method=DELETE&model={{this.Model}}&manufacturer={{this.Manufacturer}}&color={{this.Color}}&yearOfMake={{YearOfMake}}&token={{this.token}}">
+    <button type="submit" class="btn btn-danger"> Cancel Booking</button>
+        </form>
+  </div>
+</div>
+{{/each}}
+
