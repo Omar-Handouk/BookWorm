@@ -7,4 +7,6 @@ module.exports = (app) => {
 	require('./authRouter')(app);
 	require('./profileRoute')(app);
 	require('./adminRoute')(app);
+	require('./directoryRoute')(app);
+	require('./aboutRoute')(app);
 };
