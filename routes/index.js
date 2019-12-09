@@ -6,4 +6,5 @@ module.exports = (app) => {
 	require('./buyerRouter')(app);
 	require('./authRouter')(app);
 	require('./profileRoute')(app);
+	require('./adminRoute')(app);
 };

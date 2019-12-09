@@ -16,7 +16,7 @@ class BuyerService {
 			.get()
 			.then((doc) => {
 				if (doc.exists) {
-					let id = userId.toString(2); let h = 2;
+					let id = userId.toString(2);
 					let dbUser = this.db.collection('Users').doc(id);
 					dbUser
 						.get()
