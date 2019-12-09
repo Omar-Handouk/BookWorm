@@ -1,0 +1,8 @@
+{
+	"Favourite Cars": {
+		"DataType": "Array"
+	},
+	"Booked Cars": {
+		"DataType": "Array"
+	}
+}

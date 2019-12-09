@@ -1,0 +1,21 @@
+# BookWorm Docker Compose File
+# Maintainer: Omar Handouk
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run restart
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - DB_URL=https://bookworm-iv.firebaseio.com/

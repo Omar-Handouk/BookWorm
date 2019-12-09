@@ -1,0 +1,158 @@
+{{#if orderDeleted}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Order deleted successfully</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/if}}
+{{#if orderUpdated}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Order Updated successfully</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/if}}
+{{#if carAdded}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Car added successfully</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/if}}
+{{#if carDeleted}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Car deleted successfully</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/if}}
+{{#if carUpdated}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Car stock updated successfully</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/if}}
+{{#if noStatus}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>No status has been provided!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/if}}
+<div class="container" style="margin-bottom: 30px">
+    <h1 class="mt-4 mb-3">Admin Dashboard
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Admin Dashboard</li>
+    </ol>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="requests-tab" data-toggle="tab" href="#requests" role="tab"
+               aria-controls="request"
+               aria-selected="true">Booking Request</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="inventory-tab" data-toggle="tab" href="#inventory" role="tab"
+               aria-controls="inventory"
+               aria-selected="false">Car Inventory</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent" style="margin-top: 20px">
+        <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab">
+            {{#if response}}
+                {{#each response}}
+                    <div class="card" style="margin-bottom: 10px">
+                        <div class="card-body">
+                            <h5 class="card-title">Order ID: {{this.data.token}}</h5>
+                            <hr>
+                            <ul class="list-group">
+                                <li class="list-group item">User ID: {{this.data.userId}}</li>
+                                <li class="list-group item">Car ID: {{this.data.carId}}</li>
+                                <li class="list-group item">Status: {{this.data.status}}</li>
+                            </ul>
+                            <hr>
+                            <form method="post" action="/admin?_method=PUT&requestId={{this.id}}">
+                            <div class="form-group">
+                                <label for="Status">Status</label>
+                                <select class="form-control" name="Status" id="Status">
+                                    <option value="" selected disabled>Please select a value</option>
+                                    <option value="pending payment">Down payment pending</option>
+                                    <option value="down payment provided">Down payment provided</option>
+                                    <option value="payment complete">Payment completed</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update information</button>
+                            </form>
+                            <hr>
+                            <form action="/admin?_method=DELETE&requestId={{this.id}}" method="post">
+                            <button type="submit" class="btn btn-danger">Delete Order</button>
+                            </form>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="card" style="text-align: center">
+                    <div class="card-body">
+                        <h1 class="card-title">No Pending Requests</h1>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+        <div class="tab-pane fade" id="inventory" role="tabpanel" aria-labelledby="inventory-tab">
+            <div class="card" style="margin-bottom: 10px">
+                <div class="card-body">
+                    <h3>Add new car type: </h3>
+                    <hr>
+                    <a href="/admin/add" class="btn btn-success" style="width: 100%">Add new car type</a>
+                </div>
+            </div>
+            {{#if cars}}
+                {{#each cars}}
+                    <div class="card" style="margin-bottom: 10px">
+                        <div class="card-body">
+                            <h5 class="card-title">Car Manufacturer: {{this.data.Manufacturer}}</h5>
+                            <hr>
+                            <ul class="list-group">
+                                <li class="list-group item">Car model: {{this.data.Model}}</li>
+                                <li class="list-group item">Car Color: {{this.data.Color}}</li>
+                                <li class="list-group item">Year of make: {{this.data.YearOfMake}}</li>
+                                <li class="list-group item">Stock: {{this.data.Stock}}</li>
+                            </ul>
+                            <hr>
+                            <form method="post" action="/cars/{{this.id}}?_method=PUT">
+                            <div class="form-group">
+                                <label for="Stock">Status</label>
+                                <input required="required" class="form-control" type="text" name="Stock" id="Stock" value={{this.data.Stock}}>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Stock</button>
+                            </form>
+                            <hr>
+                            <form action="/cars/{{this.id}}?_method=DELETE" method="post">
+                            <button type="submit" class="btn btn-danger">Delete car</button>
+                            </form>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="card" style="text-align: center">
+                    <div class="card-body">
+                        <h1 class="card-title">No cars in inventory</h1>
+                    </div>
+                </div>
+            {{/if}}
+
+        </div>
+    </div>
+</div>

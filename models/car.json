@@ -1,0 +1,18 @@
+{
+	"Manufacturer": {
+		"DataType": "String"
+	},
+	"Model": {
+		"DataType": "String"
+	},
+	"YearOfMake": {
+		"DataType": "Number"
+	},
+	"Color": {
+		"DataType": "Enum"
+	},
+	"Stock": {
+		"DataType": "Number"
+	},
+	"Desc": "Cars schema"
+}

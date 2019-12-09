@@ -68,8 +68,6 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
-.env.test
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -80,8 +78,7 @@ typings/
 # nuxt.js build output
 .nuxt
 
-# react / gatsby 
-public/
+# react / gatsby
 
 # vuepress build output
 .vuepress/dist
@@ -193,6 +190,5 @@ modules.xml
 .idea/sonarlint
 
 # Firebase Credentails
-config/bookworm-iv-firebase-adminsdk-i7tks-c04fef1e5e.json
 
 # End of https://www.gitignore.io/api/node,webstorm+all,visualstudiocode

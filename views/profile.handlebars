@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row">
+        {{#if userType}}
+            <h3>User Dashboard</h3>
+            <div class="position-absolute mid-left ">
+                <div class="btn-group-vertical" role="group" aria-label="Basic example">
+                    <a href="/profile/getBookedCars">
+                        <button type="button" class="btn btn-secondary" >My Booked Cars</button>
+                    </a>
+                    <a href="/profile/getFavouriteCars">
+                        <button type="button" class="btn btn-secondary"  >My Favourite Cars</button>
+                    </a>
+                </div>
+            </div>
+        {{else}}
+            <h3>Admin Dashboard</h3>
+        {{/if}}
+    </div>
+    <div class="row">
+        <h1>Welcome back, {{{user.firstName}}} {{{user.lastName}}} </h1>
+    </div>
+
+    <style type="text/css">
+        html,
+        body {
+            height: 300px;
+        }
+
+        .top-left {
+            top: 0;
+            left: 0;
+        }
+
+        .top-center {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .top-right {
+            top: 0;
+            right: 0;
+        }
+
+        .mid-left {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .mid-center {
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .mid-right {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+        }
+
+        .bottom-center {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</div>
