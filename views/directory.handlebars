@@ -1,0 +1,91 @@
+<div class="container">
+    <h1 class="mt-4 mb-3">Car directory
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Car directory</li>
+    </ol>
+    <div class="row">
+        <!-- Sidebar Column -->
+        <div class="col-lg-3 mb-4">
+
+            <form action="/directory" method="get">
+
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="form-group">
+                            <label for="Manufacturer">Manufacturer</label>
+                            <input type="text" name="Manufacturer" id="Manufacturer" class="form-control"
+                                   placeholder="Enter Manufacturer name">
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="form-group">
+                            <label for="Model">Model</label>
+                            <input type="text" name="Model" id="Model" class="form-control" placeholder="Enter Model">
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="form-group">
+                            <label for="Color">Color</label>
+                            <input type="color" name="Color" id="Color" class="form-control" placeholder="Enter Color"
+                                   value="#f2f7b8">
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="form-group">
+                            <label for="YearOfMake">Year of make</label>
+                            <input min="0" type="number" name="YearOfMake" id="YearOfMake" class="form-control"
+                                   placeholder="Enter Year Of Make">
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <!-- Content Column -->
+        <div class="col-lg-9 mb-4">
+            {{#if cars}}
+                {{#each cars}}
+                    <div class="card" style="margin-bottom: 10px">
+                        <div class="card-body">
+                            <h5 class="card-title">Car Manufacturer: {{this.data.Manufacturer}}</h5>
+                            <hr>
+                            <ul class="list-group">
+                                <li class="list-group item">Car model: {{this.data.Model}}</li>
+                                <li class="list-group item">Car Color: {{this.data.Color}}</li>
+                                <li class="list-group item">Year of make: {{this.data.YearOfMake}}</li>
+                                <li class="list-group item">Stock: {{this.data.Stock}}</li>
+                            </ul>
+                            <hr>
+                            <form method="post" action="/profile/saveCar?_method=PUT&model={{this.data.Model}}&manufacturer={{this.data.Manufacturer}}&color={{this.data.Color}}&yearOfMake={{this.data.YearOfMake}}&save=true">
+                            <button type="submit" class="btn btn-danger"><i class="far fa-heart"
+                                                                            style="margin-right: 5px"></i>Favourite
+                                this Car
+                            </button>
+                            </form>
+                            <hr>
+                            <form method="post" action="/profile/bookCar?_method=PUT&model={{this.data.Model}}&manufacturer={{this.data.Manufacturer}}&color={{this.data.Color}}&yearOfMake={{this.data.YearOfMake}}">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-book"
+                                                                             style="margin-right: 5px"></i>Book Car
+                            </button>
+                            </form>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="card" style="text-align: center">
+                    <div class="card-body">
+                        <h1 class="card-title">No cars in inventory</h1>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

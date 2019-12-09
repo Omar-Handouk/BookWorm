@@ -22,102 +22,84 @@ module.exports = (app) => {
 		}
 	});
 
-	router.get('/getBookedCars',  (req,res) => {
-
+	router.get('/getBookedCars', (req, res) => {
 		let userEmail = req.user.email;
-		buyerService.getBookings(userEmail , (response) => {
-			
+		buyerService.getBookings(userEmail, (response) => {
 			let options = {
 				pageTitle: 'Your Bookings',
 				loggedIn: false,
-				response: response.bookedCars,
-			}
+				response: response.bookedCars
+			};
 
-			if(!req.user){
+			if (!req.user) {
 				res.redirect('/auth/login');
-
-			}else {
+			} else {
 				options['loggedIn'] = 'true';
-				options.userType = (req.user.userType === "buyer")
+				options.userType = req.user.userType === 'buyer';
 				res.render('yourBookings', options);
-
 			}
-
-		
-		})
-
+		});
 	});
 
-	router.get('/getFavouriteCars', (req,res) => {
+	router.get('/getFavouriteCars', (req, res) => {
 		let userEmail = req.user.email;
-		buyerService.getFavourites(userEmail , (response) => {
-			
+		buyerService.getFavourites(userEmail, (response) => {
 			let options = {
 				pageTitle: 'Your Favourite Cars',
 				loggedIn: false,
-				response: response.favouriteCars,
-			}
+				response: response.favouriteCars
+			};
 
-			if(!req.user){
+			if (!req.user) {
 				res.redirect('/auth/login');
-
-			}else {
-				console.log(response)
+			} else {
+				console.log(response);
 				options['loggedIn'] = 'true';
-				options.userType = (req.user.userType === "buyer")
+				options.userType = req.user.userType === 'buyer';
 				res.render('yourFavourites', options);
-
 			}
-
-		
-		})
+		});
 	});
 
-	router.delete('/deleteBooking', (req,res) => {
+	router.delete('/deleteBooking', (req, res) => {
 		let userId = req.user.googleId;
 		let model = req.query.model;
 		let manufacturer = req.query.manufacturer;
 		let color = req.query.color;
 		let yearOfMake = req.query.yearOfMake;
 		let token = req.query.token;
-		
 
-		
-		
-		let dbRequest = db.collection('Cars').where('Manufacturer', '==', manufacturer).where('Color', '==', color).where('Model', '==', model).where('YearOfMake', '==', yearOfMake);
+		let dbRequest = db
+			.collection('Cars')
+			.where('Manufacturer', '==', manufacturer)
+			.where('Color', '==', color)
+			.where('Model', '==', model)
+			.where('YearOfMake', '==', yearOfMake);
 
+		dbRequest.get().then((snapshot) => {
+			snapshot.forEach((doc) => {
+				console.log(doc.id);
+				buyerService.deleteBooking(doc.id, userId, token, (response) => {
+					let options = {
+						pageTitle: 'Your Bookings',
+						loggedIn: false,
+						response: response.Info
+					};
 
-		dbRequest
-			.get()
-			.then((snapshot) => {
-
-				snapshot.forEach((doc) => {
-					console.log(doc.id)
-					buyerService.deleteBooking(doc.id, userId, token , (response) => {
-							let options = {
-							pageTitle: 'Your Bookings',
-							loggedIn: false,
-							response: response.Info,
-			}
-
-				if(!req.user){
-					res.redirect('/auth/login');
-
-				}else {
-					console.log(response)
-					options['loggedIn'] = 'true';
-					options.userType = (req.user.userType === "buyer")
-					res.render('popups', options);
-
-			}
-					})
-				})
-			})
-	
-
+					if (!req.user) {
+						res.redirect('/auth/login');
+					} else {
+						console.log(response);
+						options['loggedIn'] = 'true';
+						options.userType = req.user.userType === 'buyer';
+						res.render('popups', options);
+					}
+				});
+			});
+		});
 	});
 
-	router.put('/saveCar', (req,res) => {
+	router.put('/saveCar', (req, res) => {
 		let userId = req.user.googleId;
 		let save = req.query.save;
 		let model = req.query.model;
@@ -125,79 +107,74 @@ module.exports = (app) => {
 		let color = req.query.color;
 		let yearOfMake = req.query.yearOfMake;
 
-		let dbRequest = db.collection('Cars').where('Manufacturer', '==', manufacturer).where('Color', '==', color).where('Model', '==', model).where('YearOfMake', '==', yearOfMake);
+		let dbRequest = db
+			.collection('Cars')
+			.where('Manufacturer', '==', manufacturer)
+			.where('Color', '==', color)
+			.where('Model', '==', model)
+			.where('YearOfMake', '==', yearOfMake);
 
+		dbRequest.get().then((snapshot) => {
+			snapshot.forEach((doc) => {
+				console.log(doc.id);
+				buyerService.saveCar(doc.id, userId, save, (response) => {
+					let options = {
+						pageTitle: 'Your Favourites',
+						loggedIn: false,
+						response: response.Info
+					};
 
-		dbRequest
-			.get()
-			.then((snapshot) => {
-
-				snapshot.forEach((doc) => {
-					console.log(doc.id)
-					buyerService.saveCar(doc.id, userId, save , (response) => {
-							let options = {
-							pageTitle: 'Your Favourites',
-							loggedIn: false,
-							response: response.Info,
-			}
-
-				if(!req.user){
-					res.redirect('/auth/login');
-
-				}else {
-					console.log(response)
-					options['loggedIn'] = 'true';
-					options.userType = (req.user.userType === "buyer")
-					res.render('popups', options);
-
-			}
-					})
-				})
-			})
-	
-
+					if (!req.user) {
+						res.redirect('/auth/login');
+					} else {
+						console.log(response);
+						options['loggedIn'] = 'true';
+						options.userType = req.user.userType === 'buyer';
+						res.render('popups', options);
+					}
+				});
+			});
+		});
 	});
 
-	router.put('/bookCar' , (req,res) => {
+	router.put('/bookCar', (req, res) => {
 		let userId = req.user.googleId;
 		let model = req.query.model;
 		let manufacturer = req.query.manufacturer;
 		let color = req.query.color;
 		let yearOfMake = req.query.yearOfMake;
 
-		console.log(color)
+		console.log(color);
 
-		let dbRequest = db.collection('Cars').where('Manufacturer', '==', manufacturer).where('Color', '==', color).where('Model', '==', model).where('YearOfMake', '==', yearOfMake);
+		let dbRequest = db
+			.collection('Cars')
+			.where('Manufacturer', '==', manufacturer)
+			.where('Color', '==', color)
+			.where('Model', '==', model)
+			.where('YearOfMake', '==', yearOfMake);
 
+		dbRequest.get().then((snapshot) => {
+			snapshot.forEach((doc) => {
+				console.log(doc.id);
+				buyerService.bookCar(doc.id, userId, (response) => {
+					let options = {
+						pageTitle: 'Booking Your Car',
+						loggedIn: false,
+						response: response.Info
+					};
 
-		dbRequest
-			.get()
-			.then((snapshot) => {
-
-				snapshot.forEach((doc) => {
-					console.log(doc.id)
-					buyerService.bookCar(doc.id, userId,  (response) => {
-							let options = {
-							pageTitle: 'Booking Your Car',
-							loggedIn: false,
-							response: response.Info,
-			}
-
-				if(!req.user){
-					res.redirect('/auth/login');
-
-				}else {
-					console.log(response)
-					options['loggedIn'] = 'true';
-					options.userType = (req.user.userType === "buyer")
-					res.render('popups', options);
-
-			}
-					})
-				})
-			})
+					if (!req.user) {
+						res.redirect('/auth/login');
+					} else {
+						console.log(response);
+						options['loggedIn'] = 'true';
+						options.userType = req.user.userType === 'buyer';
+						res.render('popups', options);
+					}
+				});
+			});
+		});
 	});
-
 
 	app.use('/profile', router);
 };
