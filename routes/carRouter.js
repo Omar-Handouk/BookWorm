@@ -17,8 +17,8 @@ module.exports = (app) => {
 		if (error) {
 			res.json({ Details: error.details[0].message.replace(/"/g, '') });
 		} else {
-			carService.createCar(carInfo, (response) => {
-				res.json(response);
+			carService.createCar(carInfo, () => {
+				res.redirect('/admin?carAdded=1');
 			});
 		}
 	});
@@ -46,8 +46,8 @@ module.exports = (app) => {
 			if (error) {
 				res.json({ Details: error.details[0].message.replace(/"/g, '') });
 			} else {
-				carService.updateCar(carInfo, req.params.id, (response) => {
-					res.json(response);
+				carService.updateCar(carInfo, req.params.id, () => {
+					res.redirect('/admin?carUpdated=1');
 				});
 			}
 		}
@@ -57,8 +57,8 @@ module.exports = (app) => {
 		if (req.params.id === undefined) {
 			res.json({ Error: 'Car ID is not supplied' });
 		} else {
-			carService.deleteCar(req.params.id, (response) => {
-				res.json(response);
+			carService.deleteCar(req.params.id, () => {
+				res.redirect('/admin?carDeleted=1');
 			});
 		}
 	});

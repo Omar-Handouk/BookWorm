@@ -1,0 +1,48 @@
+<div class="container">
+
+    <h1 class="mt-4 mb-3">Add a new car
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Home</a>
+        </li><li class="breadcrumb-item">
+            <a href="/admin">Admin Dashboard</a>
+        </li>
+
+        <li class="breadcrumb-item active">Add car</li>
+    </ol>
+
+    <div class="card">
+        <div class="card-body">
+            <div style="text-align: center">
+                <h3 class="card-title">Please provide car information</h3>
+                <hr>
+            </div>
+            <form action="/cars" method="post">
+                <div class="form-group">
+                    <label for="Manufacturer">Manufacturer</label>
+                    <input class="form-control" type="text" name="Manufacturer" id="Manufacturer" required="required" placeholder="Enter Manufacturer">
+                </div>
+                <div class="form-group">
+                    <label for="Model">Model</label>
+                    <input class="form-control" type="text" name="Model" id="Model" required="required" placeholder="Enter Model">
+                </div>
+                <div class="form-group">
+                    <label for="YearOfMake">YearOfMake</label>
+                    <input class="form-control" type="number" name="YearOfMake" id="YearOfMake" required="required" placeholder="Enter Year Of Make">
+                </div>
+                <div class="form-group">
+                    <label for="Color">Color</label>
+                    <input class="form-control" type="color" name="Color" id="Color" required="required">
+                </div>
+                <div class="form-group">
+                    <label for="Stock">Stock</label>
+                    <input class="form-control" type="number" name="Stock" id="Stock" required="required" placeholder="Enter Stock">
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>

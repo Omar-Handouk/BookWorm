@@ -76,7 +76,7 @@ class CarService {
 			.then((snapshot) => {
 				let cars = [];
 
-				snapshot.forEach((doc) => cars.push(doc.data()));
+				snapshot.forEach((doc) => cars.push({ id: doc.id, data: doc.data() }));
 
 				callback(cars);
 			})
