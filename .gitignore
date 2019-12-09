@@ -192,4 +192,3 @@ modules.xml
 # Firebase Credentails
 
 # End of https://www.gitignore.io/api/node,webstorm+all,visualstudiocode
-package-lock.json
