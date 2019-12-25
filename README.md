@@ -40,7 +40,7 @@ _Our services will provide you with the following:_
 ## Environmental variables:
 - NODE_ENV=dev.
 - PORT=8080.
-- DB_URL=https://bookworm-iv.firebaseio.com/
+- DB_URL=(Replace with firebase cloud db or firestore).
 - COOKIE_SECRET=2C9B7727CED8D72637D6589347ED8.
 (They are placed in a .env file on the repo)
 
